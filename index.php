@@ -1,71 +1,43 @@
 <?php
 
-class Cat {
-    use Colorful;
-}
- 
-class Box {
-    use Colorful;
-    public $width;
-    protected $height;
-    private $length;
+///// library
 
-    public static $count = 0;
-
-    public static function test() {
-        //var_dump($this->width); // error
-        var_dump(static::$class);
-    }
-
-    public function __construct($w=0, $h=0, $l=0) {
-        self::$count++;
-        $this->width = $w;
-        $this->height = $h;
-        $this->length = $l;
-    }
-
-    public function getWidth() {
-        return $this->width;
-    }
-    public function getWidth($width) {
-        if ($width > 0 && is_numeric($width)) {
-            $this->width = $width;
+class Job {
+    public function task(Logger $logger) {
+        for ($i = 0; $i < 10; $i++) {
+            $logger = new ConsoleLogger();
+            $logger->log("Task $i completed!");
         }
     }
+}
 
-    public function volume() {
-        return $this->width * $this->height * $this->length;
+class ConsoleLogger implements Logger {
+    public function log($message) {
+        echo $message . "\n";
     }
 }
 
-class MetalBox extends Box {
-    public $material = "Metal";
-    public $massPerUnit = 2;
+interface Logger {
+    public function log($message);
+}
 
-    public function changeWidth() {
-        $this->width = 333;
-    }
 
-    public function mass() {
-        return $this->volume() * $this ->massPerUnit;
+////// library user code
+
+class NothingLogger implements Logger {
+    public function log($message) {
+        // do nothing
     }
 }
 
-trait Colorful {
-    public $color;
-
-    public function setColor($color) {
-        $this->color = $color;
-    }
-    public function getColor() {
-        return $this->color;
+class FileLogger implements Logger {
+    public function log($message) {
+        $file = fopen("log.txt", "a");
+        fwrite($file, $message . "\n");
+        fclose($file);
     }
 }
 
-$metalBox = new MetalBox(2, 3, 4,);
-Box::$count = 1;
-$box2 = new Box(2, 4, 5);
-$box2::$count = 2;
-
-var_dump(Box::$count, Box::$count);
-var_dump($metalBox->volume());
+$job = new Job();
+$logger = new ConsoleLogger();
+$job->task($logger);

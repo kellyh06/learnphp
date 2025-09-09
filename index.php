@@ -2,42 +2,47 @@
 
 ///// library
 
-class Job {
-    public function task(Logger $logger) {
-        for ($i = 0; $i < 10; $i++) {
-            $logger = new ConsoleLogger();
-            $logger->log("Task $i completed!");
-        }
+class Cat {
+    public function __construct() {
+        var_dump('Class was created');
+    }
+
+    public function __call($name, $args) {
+        var_dump($name, $args);
+    }
+
+    public function __invoke($value) {
+        var_dump($value);
+    }
+
+    public function __get($name) {
+        var_dump($name);
+        return 'Cool s*it';
+    }
+
+    public function __set($name, $value) {
+        var_dump("Set $name to $value");
+    }
+
+    public function toString() {
+        return 'Meowww';
+    }
+
+    public function __destruct() {
+        var_dump('Class was destroyed');
     }
 }
 
-class ConsoleLogger implements Logger {
-    public function log($message) {
-        echo $message . "\n";
-    }
-}
-
-interface Logger {
-    public function log($message);
+function makeCat() {
+    $cat = new Cat();
 }
 
 
-////// library user code
-
-class NothingLogger implements Logger {
-    public function log($message) {
-        // do nothing
-    }
-}
-
-class FileLogger implements Logger {
-    public function log($message) {
-        $file = fopen("log.txt", "a");
-        fwrite($file, $message . "\n");
-        fclose($file);
-    }
-}
-
-$job = new Job();
-$logger = new ConsoleLogger();
-$job->task($logger);
+$kitty = new Cat();
+var_dump($kitty);
+var_dump($kitty->mood);
+$kitty->color = 'Rainbow';
+$kitty->throwShit();
+echo $kitty;
+$kitty = 1;
+var_dump('something');

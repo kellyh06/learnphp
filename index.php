@@ -2,8 +2,10 @@
  
 class Box {
     public $width;
-    public $height;
-    public $length;
+    protected $height;
+    private $length;
+
+
 
     public function __construct($w, $h, $l) {
         $this->width = $w;
@@ -11,13 +13,36 @@ class Box {
         $this->length = $l;
     }
 
+    public function getWidth() {
+        return $this->width;
+    }
+    public function getWidth($width) {
+        if ($width > 0 && is_numeric($width)) {
+            $this->width = $width;
+        }
+    }
+
     public function volume() {
         return $this->width * $this->height * $this->length;
     }
 }
 
-$box1 = new Box();
-$box1->width = 10;
-$box2 = clone $box1;
-$box2->width = 20;
-var_dump($box1->width);
+class MetalBox extends Box {
+    public $material = "Metal";
+    public $massPerUnit = 2;
+
+    public function changeWidth() {
+        $this->width = 333;
+    }
+
+    public function mass() {
+        return $this->volume() * $this ->massPerUnit;
+    }
+}
+
+$metalBox = new MetalBox(2, 3, 4,);
+$metalBox->width = 'Cool value'
+
+
+var_dump($metalBox);
+var_dump($metalBox->volume());

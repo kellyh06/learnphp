@@ -3,14 +3,29 @@
 namespace App\Controllers;
 
 use App\DB;
+use App\Models\Post;
+use App\Models\User;
+
 class PostsController
 {
     public function index()
     {
-        $db = new DB();
-        $posts = $db->all('posts');
-        dump($posts);
-        $users = $db->all('users');
-        dump($users);
+        $posts = Post::all();
+        view('posts/index', compact('posts'));
+    }
+
+    public function create()
+    {
+        view('posts/create');
+    }
+
+    public function store()
+    {
+        dump($_POST);
+        $post = new Post();
+        $post->title = $_POST['title'];
+        $post->body = $_POST['body'];
+        $post->save();
+        header('Location: /posts');
     }
 }

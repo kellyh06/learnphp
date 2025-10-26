@@ -1,0 +1,19 @@
+{
+    "name": "kelly/learnphp",
+    "type": "project",
+    "license": "WTFPL",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kellyh06",
+            "email": "kelly.hurt@tptlive.ee"
+        }
+    ],
+    "require": {
+        "symfony/var-dumper": "^7.3"
+    }
+}
